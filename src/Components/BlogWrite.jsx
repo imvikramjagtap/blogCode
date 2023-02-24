@@ -13,7 +13,6 @@ export default function BlogWrite() {
   const [desc, setDesc] = useState("");
   const username = useSelector((state) => state.auth.data.username);
 
-
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (title.length <= 5) {
@@ -86,12 +85,13 @@ export default function BlogWrite() {
               Post
             </button>
           </div>
-          <textarea
+          {/* <textarea
             className="w-[100%] mt-5 h-60 text-2xl text-slate-700 p-2"
             placeholder="Whats on your Mind...."
             type="text"
             onChange={(e) => setDesc(e.target.value)}
-          ></textarea>
+          ></textarea> */}
+          <Editor setContent={setDesc} content={desc} />
         </form>
       </div>
     </>

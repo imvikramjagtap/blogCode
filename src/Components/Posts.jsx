@@ -2,12 +2,23 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Api_URL } from "../API_URL";
+import Loader from "../Loader";
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchPost = async () => {
-    const res = await axios.get(`${Api_URL}/api/posts`);
-    setPosts(res.data);
+    try {
+      const res = await axios.get(`${Api_URL}/api/posts`);
+      if (res.status === 200) {
+        setPosts(res.data);
+        setLoading(false)
+
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    
   };
 
   useEffect(() => {
@@ -16,6 +27,7 @@ export default function Posts() {
 
   return (
     <div className="w-[70%] p-5">
+      {loading && <Loader />}
       <div className="flex  flex-wrap gap-10">
         {posts
           .slice(0)
@@ -39,7 +51,9 @@ export default function Posts() {
                   <p>Date: {new Date(post.createdAt).toDateString()}</p>
                   <p>Author: {post.username}</p>
                 </div>
-                <p className="line-clamp-5 mt-3">{post.desc}</p>
+                <p className="line-clamp-5 mt-3" dangerouslySetInnerHTML={{
+                      __html: post.desc,
+                    }}/>
               </div>
             </div>
           ))}

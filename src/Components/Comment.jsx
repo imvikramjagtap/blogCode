@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Api_URL } from "../API_URL";
 
 export default function Comment(props) {
-  const [name, setName] = useState("");
+  const user = useSelector((state) => state.auth.data);
+  const [name, setName] = useState(user ? user.username : "");
   const [comment, setComment] = useState("");
 
   const commentPostHandler = async (e) => {
@@ -22,14 +24,13 @@ export default function Comment(props) {
           comment,
         });
         toast.success("Comment posted");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        props.getPost();
       } catch (err) {
         alert(err);
       }
     }
   };
+  console.log(props.post.comments)
   return (
     <div className="flex flex-col justify-center mx-60 mt-16">
       <div className="border-b-2 w-full border-black">
@@ -47,7 +48,7 @@ export default function Comment(props) {
             <div>
               <div className="flex gap-5">
                 <p className="font-bold">{comment.name}</p>
-                <p className="text-slate-600">Date and time</p>
+                {/* <p className="text-slate-600">Date and time</p> */}
               </div>
               <div>
                 <p>{comment.comment}</p>
@@ -70,6 +71,7 @@ export default function Comment(props) {
           className="w-full p-2 border rounded-md border-slate-800 focus:outline-none"
           type="text"
           onChange={(e) => setName(e.target.value)}
+          value={name}
         />
         <label htmlFor="comment" className="mt-2">
           Comment:

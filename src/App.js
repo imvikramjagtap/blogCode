@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
 import { useSelector } from "react-redux";
+import Loader from "./Loader";
 
 function App() {
   const user = useSelector(state => state.auth);
