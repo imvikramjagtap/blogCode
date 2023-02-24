@@ -1,0 +1,1 @@
+export const Api_URL = "https://blog-backend-wz2b.onrender.com"
